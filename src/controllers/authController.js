@@ -1,20 +1,39 @@
 import authService from "../services/authService.js";
+import responseHandler from "../utils/responseHandler.js";
+import {
+  RESPONSE_STATUS_CREATED,
+  RESPONSE_STATUS_BAD_REQUEST,
+  RESPONSE_STATUS_SUCCESS,
+} from "../constants/statusCodes.js";
+import {
+  MESSAGE_REGISTER_SUCCESS,
+  MESSAGE_LOGIN_SUCCESS,
+} from "../constants/messages.js";
 
 const register = async (req, res) => {
   try {
     const user = await authService.register(req.body);
-    res.status(201).json({ message: "User registered", user });
+    responseHandler(
+      res,
+      RESPONSE_STATUS_CREATED,
+      true,
+      MESSAGE_REGISTER_SUCCESS,
+      user,
+    );
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    responseHandler(res, RESPONSE_STATUS_BAD_REQUEST, false, error.message);
   }
 };
 
 const login = async (req, res) => {
   try {
     const { token, user } = await authService.login(req.body);
-    res.status(200).json({ message: "Login successful", token, user });
+    responseHandler(res, RESPONSE_STATUS_SUCCESS, true, MESSAGE_LOGIN_SUCCESS, {
+      token,
+      user,
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    responseHandler(res, RESPONSE_STATUS_BAD_REQUEST, false, error.message);
   }
 };
 
