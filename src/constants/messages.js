@@ -12,3 +12,9 @@ export const MESSAGE_MISSING_FIELDS =
 export const MESSAGE_LOGIN_FIELDS_REQUIRED = "Email and password are required";
 export const MESSAGE_USERS_RETRIEVED = "Users retrieved successfully";
 export const MESSAGE_USER_RETRIEVED = "User retrieved successfully";
+export const MESSAGE_BOOK_CREATED = "Book created successfully";
+export const MESSAGE_BOOKS_RETRIEVED = "Books retrieved successfully";
+export const MESSAGE_BOOK_RETRIEVED = "Book retrieved successfully";
+export const MESSAGE_BOOK_EXISTS = "Book with this ISBN already exists";
+export const MESSAGE_BOOK_TITLE_EXISTS =
+  "Book with title '{title}' already exists in the database";
