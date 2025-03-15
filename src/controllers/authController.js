@@ -13,27 +13,40 @@ import {
 const register = async (req, res) => {
   try {
     const user = await authService.register(req.body);
-    responseHandler(
+    return responseHandler(
       res,
       RESPONSE_STATUS_CREATED,
       true,
       MESSAGE_REGISTER_SUCCESS,
-      user,
+      { user },
     );
   } catch (error) {
-    responseHandler(res, RESPONSE_STATUS_BAD_REQUEST, false, error.message);
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_BAD_REQUEST,
+      false,
+      error.message,
+    );
   }
 };
 
 const login = async (req, res) => {
   try {
     const { token, user } = await authService.login(req.body);
-    responseHandler(res, RESPONSE_STATUS_SUCCESS, true, MESSAGE_LOGIN_SUCCESS, {
-      token,
-      user,
-    });
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_SUCCESS,
+      true,
+      MESSAGE_LOGIN_SUCCESS,
+      { token, user },
+    );
   } catch (error) {
-    responseHandler(res, RESPONSE_STATUS_BAD_REQUEST, false, error.message);
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_BAD_REQUEST,
+      false,
+      error.message,
+    );
   }
 };
 

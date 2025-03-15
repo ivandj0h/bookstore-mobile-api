@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "NODE_PATH=src nodemon src/index.js"
   },
   "author": "ivandjoh",
   "license": "ISC",
