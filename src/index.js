@@ -1,5 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+import path from "path";
+
+// Konversi `import.meta.url` ke path absolut
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Import dengan path absolute (TANPA ALIAS, 100% FIX)
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import applyLogger from "./middleware/logger.js";

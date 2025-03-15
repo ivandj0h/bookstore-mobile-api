@@ -7,3 +7,6 @@ export const MESSAGE_UNAUTHORIZED = "Unauthorized access";
 export const MESSAGE_FORBIDDEN = "Forbidden access";
 export const MESSAGE_NOT_FOUND = "Resource not found";
 export const MESSAGE_SERVER_ERROR = "Internal server error";
+export const MESSAGE_MISSING_FIELDS =
+  "Email, username, and password are required";
+export const MESSAGE_LOGIN_FIELDS_REQUIRED = "Email and password are required";

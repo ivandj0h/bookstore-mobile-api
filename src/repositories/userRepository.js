@@ -1,11 +1,7 @@
 import User from "../models/userModel.js";
 
-const createUser = async (userData) => {
-  return await User.create(userData);
-};
+const create = async (userData) => await User.create(userData);
+const findByEmail = async (email) => await User.findOne({ email });
+const findByUsername = async (username) => await User.findOne({ username });
 
-const findUserByEmail = async (email) => {
-  return await User.findOne({ email });
-};
-
-export default { createUser, findUserByEmail };
+export default { create, findByEmail, findByUsername };

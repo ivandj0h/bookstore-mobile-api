@@ -5,22 +5,24 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: [true, "Username is required"],
       unique: true,
+      trim: true,
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Email is required"],
       unique: true,
       match: [
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
         "Invalid email format",
       ],
+      trim: true,
     },
     password: {
       type: String,
-      required: true,
-      minlength: 8,
+      required: [true, "Password is required"],
+      minlength: [8, "Password must be at least 8 characters"],
     },
     profileImage: {
       type: String,
@@ -40,12 +42,14 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Hash password sebelum save
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
+// Method buat verifikasi password
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
