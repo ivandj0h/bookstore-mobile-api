@@ -43,7 +43,7 @@ const login = async ({ email, password }) => {
 
   // Generate token
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "30s",
+    expiresIn: "1d",
   });
 
   // Hapus password dari response
