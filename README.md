@@ -25,8 +25,14 @@ SERVER_APP_NAME=Bookstore Mobile Book API
 SERVER_APP_API=localhost
 SERVER_APP_PORT=8000
 
+# API CONFIGURATION
+API_PREFIX=/api/v1
+
 # DATABASE CONFIGURATION
-MONGO_URI=mongodb://localhost:27017/bookstore
+MONGO_URI=
+
+# JWT Secret
+JWT_SECRET=
 ```
 
 ### 4. Menjalankan Server
@@ -45,26 +51,32 @@ Jika berhasil, server akan berjalan di:
 📂 backend
  ┣ 📂 src
  ┃ ┣ 📂 config
- ┃ ┃ ┗ 📝 db.js           # Koneksi MongoDB
+ ┃ ┃ ┗ 📝 db.js              # Koneksi MongoDB
  ┃ ┣ 📂 routes
- ┃ ┃ ┗ 📝 authRoutes.js   # Endpoint API
+ ┃ ┃ ┣ 📝 index.js           # Penggabungan semua route
+ ┃ ┃ ┣ 📝 authRoutes.js      # Endpoint autentikasi
+ ┃ ┃ ┗ 📝 userRoutes.js      # Endpoint profil pengguna
  ┃ ┣ 📂 controllers
- ┃ ┃ ┗ 📝 authController.js  # Logika request-response
+ ┃ ┃ ┣ 📝 authController.js  # Logika autentikasi
+ ┃ ┃ ┗ 📝 userController.js  # Logika profil pengguna
  ┃ ┣ 📂 services
- ┃ ┃ ┗ 📝 authService.js  # Business logic
+ ┃ ┃ ┣ 📝 authService.js     # Business logic autentikasi
+ ┃ ┃ ┗ 📝 userService.js     # Business logic profil pengguna
  ┃ ┣ 📂 repositories
- ┃ ┃ ┗ 📝 userRepository.js  # Akses ke MongoDB
+ ┃ ┃ ┗ 📝 userRepository.js  # Akses ke MongoDB untuk user
  ┃ ┣ 📂 models
- ┃ ┃ ┗ 📝 userModel.js    # Schema Mongoose
+ ┃ ┃ ┗ 📝 userModel.js       # Schema Mongoose untuk user
+ ┃ ┣ 📂 middleware
+ ┃ ┃ ┗ 📝 authMiddleware.js  # Middleware autentikasi JWT
  ┃ ┣ 📂 utils
- ┃ ┃ ┗ 📝 responseHandler.js  # Handler response
+ ┃ ┃ ┗ 📝 responseHandler.js # Handler response
  ┃ ┣ 📂 constants
- ┃ ┃ ┣ 📝 statusCodes.js      # Constants HTTP Status Codes
- ┃ ┃ ┗ 📝 messages.js         # Constants Response Messages
- ┃ ┗ 📝 index.js          # Main App
- ┣ 📝 .env               # Konfigurasi environment
- ┣ 📝 package.json       # Dependencies & scripts
- ┣ 📝 README.md          # Dokumentasi
+ ┃ ┃ ┣ 📝 statusCodes.js     # Constants HTTP Status Codes
+ ┃ ┃ ┗ 📝 messages.js        # Constants Response Messages
+ ┃ ┗ 📝 index.js             # Main App
+ ┣ 📝 .env                  # Konfigurasi environment
+ ┣ 📝 package.json          # Dependencies & scripts
+ ┣ 📝 README.md             # Dokumentasi
 ```
 
 ## 📡 API Endpoints
@@ -74,6 +86,8 @@ Jika berhasil, server akan berjalan di:
 | GET | `/` | Welcome message |
 | POST | `/api/v1/auth/register` | Register user |
 | POST | `/api/v1/auth/login` | Login user |
+| GET | `/api/v1/users` | Get all users (auth) |
+| GET | `/api/v1/users/:id` | Get user by ID (auth) |
 
 ## 🔧 Built With
 - **Node.js** - Runtime JavaScript
