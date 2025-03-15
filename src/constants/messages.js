@@ -10,3 +10,5 @@ export const MESSAGE_SERVER_ERROR = "Internal server error";
 export const MESSAGE_MISSING_FIELDS =
   "Email, username, and password are required";
 export const MESSAGE_LOGIN_FIELDS_REQUIRED = "Email and password are required";
+export const MESSAGE_USERS_RETRIEVED = "Users retrieved successfully";
+export const MESSAGE_USER_RETRIEVED = "User retrieved successfully";
