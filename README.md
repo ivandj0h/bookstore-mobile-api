@@ -45,13 +45,21 @@ Jika berhasil, server akan berjalan di:
 📂 backend
  ┣ 📂 src
  ┃ ┣ 📂 config
- ┃ ┃ ┗ 📝 db.js       # Konfigurasi koneksi MongoDB
- ┃ ┣ 📂 middleware
- ┃ ┃ ┗ 📝 logger.js   # Middleware logging
- ┃ ┣ 📝 index.js      # Entry point utama
- ┣ 📝 .env            # Konfigurasi environment
- ┣ 📝 package.json    # Dependencies & scripts
- ┣ 📝 README.md       # Dokumentasi
+ ┃ ┃ ┗ 📝 db.js           # Koneksi MongoDB
+ ┃ ┣ 📂 routes
+ ┃ ┃ ┗ 📝 authRoutes.js   # Endpoint API
+ ┃ ┣ 📂 controllers
+ ┃ ┃ ┗ 📝 authController.js  # Logika request-response
+ ┃ ┣ 📂 services
+ ┃ ┃ ┗ 📝 authService.js  # Business logic
+ ┃ ┣ 📂 repositories
+ ┃ ┃ ┗ 📝 userRepository.js  # Akses ke MongoDB
+ ┃ ┣ 📂 models
+ ┃ ┃ ┗ 📝 userModel.js    # Schema Mongoose
+ ┃ ┗ 📝 index.js          # Main App
+ ┣ 📝 .env               # Konfigurasi environment
+ ┣ 📝 package.json       # Dependencies & scripts
+ ┣ 📝 README.md          # Dokumentasi
 ```
 
 ## 📡 API Endpoints
@@ -59,6 +67,8 @@ Jika berhasil, server akan berjalan di:
 | Method | Endpoint | Description |
 |--------|-------------|-------------|
 | GET | `/` | Welcome message |
+| POST | `/api/v1/auth/register` | Register user |
+| POST | `/api/v1/auth/login` | Login user |
 
 ## 🔧 Built With
 - **Node.js** - Runtime JavaScript
