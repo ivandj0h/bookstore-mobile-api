@@ -56,6 +56,11 @@ Jika berhasil, server akan berjalan di:
  ┃ ┃ ┗ 📝 userRepository.js  # Akses ke MongoDB
  ┃ ┣ 📂 models
  ┃ ┃ ┗ 📝 userModel.js    # Schema Mongoose
+ ┃ ┣ 📂 utils
+ ┃ ┃ ┗ 📝 responseHandler.js  # Handler response
+ ┃ ┣ 📂 constants
+ ┃ ┃ ┣ 📝 statusCodes.js      # Constants HTTP Status Codes
+ ┃ ┃ ┗ 📝 messages.js         # Constants Response Messages
  ┃ ┗ 📝 index.js          # Main App
  ┣ 📝 .env               # Konfigurasi environment
  ┣ 📝 package.json       # Dependencies & scripts
