@@ -12,6 +12,7 @@ import {
   MESSAGE_USER_RETRIEVED,
   MESSAGE_USER_UPDATED,
   MESSAGE_USER_DELETED,
+  MESSAGE_PROFILE_IMAGE_UPLOADED, // Pastiin ada
   MESSAGE_UNAUTHORIZED,
 } from "../constants/userMessages.js";
 
@@ -156,7 +157,7 @@ const uploadUserImage = async (req, res) => {
 
 const bulkUpdateUsers = async (req, res) => {
   try {
-    const { users } = req.body; // Expect array of { id, updateData }
+    const { users } = req.body;
     if (!Array.isArray(users) || users.length === 0)
       throw new Error("Users array is required and cannot be empty");
 
