@@ -7,5 +7,13 @@ const findById = async (id) =>
   await Book.findById(id).populate("addedBy", "username email");
 const findByISBN = async (isbn) => await Book.findOne({ isbn });
 const findByTitle = async (title) => await Book.findOne({ title });
+const deleteById = async (id) => await Book.findByIdAndDelete(id);
 
-export default { create, findAll, findById, findByISBN, findByTitle };
+export default {
+  create,
+  findAll,
+  findById,
+  findByISBN,
+  findByTitle,
+  deleteById,
+};

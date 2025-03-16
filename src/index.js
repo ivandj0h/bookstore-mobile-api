@@ -18,6 +18,18 @@ applyLogger(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(process.env.API_PREFIX, routes);
+console.log(
+  "Routes loaded:",
+  routes.stack.map((layer) => ({
+    basePath: layer.regexp.source,
+    subroutes: layer.handle.stack
+      ?.map((sub) => ({
+        path: sub.route?.path,
+        methods: Object.keys(sub.route?.methods || {}),
+      }))
+      .filter(Boolean),
+  })),
+);
 
 app.listen(process.env.SERVER_APP_PORT, () => {
   console.log(

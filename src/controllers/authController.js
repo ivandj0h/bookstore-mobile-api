@@ -8,7 +8,7 @@ import {
 import {
   MESSAGE_REGISTER_SUCCESS,
   MESSAGE_LOGIN_SUCCESS,
-} from "../constants/messages.js";
+} from "../constants/userMessages.js";
 
 const register = async (req, res) => {
   try {

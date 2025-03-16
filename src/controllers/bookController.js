@@ -5,17 +5,29 @@ import {
   RESPONSE_STATUS_SUCCESS,
   RESPONSE_STATUS_BAD_REQUEST,
   RESPONSE_STATUS_NOT_FOUND,
-} from "../constants/statusCodes.js";
-import { MESSAGE_NOT_FOUND } from "../constants/messages.js";
+  RESPONSE_STATUS_UNAUTHORIZED,
+} from "../constants/statusCodes.js"; // Pindah RESPONSE_STATUS_* ke sini
+import {
+  MESSAGE_BOOK_CREATED,
+  MESSAGE_BOOKS_RETRIEVED,
+  MESSAGE_BOOK_RETRIEVED,
+  MESSAGE_BOOK_UPDATED,
+  MESSAGE_BOOK_DELETED,
+  MESSAGE_BOOK_IMAGE_UPLOADED,
+  MESSAGE_BOOK_NOT_FOUND,
+  MESSAGE_UNAUTHORIZED,
+} from "../constants/bookMessages.js"; // Tambah MESSAGE_UNAUTHORIZED
 
 const createBook = async (req, res) => {
   try {
-    const book = await bookService.createBook(req.body, req.user._id);
+    const bookData = req.body;
+    if (req.file) bookData.imageUrl = req.file;
+    const book = await bookService.createBook(bookData, req.user._id);
     return responseHandler(
       res,
       RESPONSE_STATUS_CREATED,
       true,
-      "Book created successfully",
+      MESSAGE_BOOK_CREATED,
       { book },
     );
   } catch (error) {
@@ -35,7 +47,7 @@ const getAllBooks = async (req, res) => {
       res,
       RESPONSE_STATUS_SUCCESS,
       true,
-      "Books retrieved successfully",
+      MESSAGE_BOOKS_RETRIEVED,
       { books },
     );
   } catch (error) {
@@ -51,19 +63,18 @@ const getAllBooks = async (req, res) => {
 const getBookById = async (req, res) => {
   try {
     const book = await bookService.getBookById(req.params.id);
-    if (!book) {
+    if (!book)
       return responseHandler(
         res,
         RESPONSE_STATUS_NOT_FOUND,
         false,
-        MESSAGE_NOT_FOUND,
+        MESSAGE_BOOK_NOT_FOUND,
       );
-    }
     return responseHandler(
       res,
       RESPONSE_STATUS_SUCCESS,
       true,
-      "Book retrieved successfully",
+      MESSAGE_BOOK_RETRIEVED,
       { book },
     );
   } catch (error) {
@@ -76,4 +87,103 @@ const getBookById = async (req, res) => {
   }
 };
 
-export default { createBook, getAllBooks, getBookById };
+const updateBook = async (req, res) => {
+  try {
+    const updateData = req.body;
+    if (req.file) updateData.imageUrl = req.file;
+    const book = await bookService.updateBook(
+      req.params.id,
+      updateData,
+      req.user._id,
+    );
+    if (!book)
+      return responseHandler(
+        res,
+        RESPONSE_STATUS_NOT_FOUND,
+        false,
+        MESSAGE_BOOK_NOT_FOUND,
+      );
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_SUCCESS,
+      true,
+      MESSAGE_BOOK_UPDATED,
+      { book },
+    );
+  } catch (error) {
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_BAD_REQUEST,
+      false,
+      error.message,
+    );
+  }
+};
+
+const deleteBook = async (req, res) => {
+  try {
+    const book = await bookService.deleteBook(req.params.id, req.user._id);
+    if (!book)
+      return responseHandler(
+        res,
+        RESPONSE_STATUS_NOT_FOUND,
+        false,
+        MESSAGE_BOOK_NOT_FOUND,
+      );
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_SUCCESS,
+      true,
+      MESSAGE_BOOK_DELETED,
+      {},
+    );
+  } catch (error) {
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_BAD_REQUEST,
+      false,
+      error.message,
+    );
+  }
+};
+
+const uploadBookImage = async (req, res) => {
+  try {
+    console.log("Request file:", req.file);
+    if (!req.file) throw new Error("No image file provided");
+    const book = await bookService.uploadBookImage(
+      req.params.id,
+      req.file,
+      req.user._id,
+    );
+    if (!book)
+      return responseHandler(
+        res,
+        RESPONSE_STATUS_NOT_FOUND,
+        false,
+        MESSAGE_BOOK_NOT_FOUND,
+      );
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_SUCCESS,
+      true,
+      MESSAGE_BOOK_IMAGE_UPLOADED,
+      { book },
+    );
+  } catch (error) {
+    console.log("Upload error:", error.message);
+    let status = RESPONSE_STATUS_BAD_REQUEST;
+    if (error.message === MESSAGE_UNAUTHORIZED)
+      status = RESPONSE_STATUS_UNAUTHORIZED; // Sesuain dengan userMessages.js
+    return responseHandler(res, status, false, error.message);
+  }
+};
+
+export default {
+  createBook,
+  getAllBooks,
+  getBookById,
+  updateBook,
+  deleteBook,
+  uploadBookImage,
+};
