@@ -21,18 +21,23 @@ Buat file `.env` di root project dan isi dengan konfigurasi berikut:
 
 ```
 # SERVER CONFIGURATION
-SERVER_APP_NAME=Bookstore Mobile Book API
-SERVER_APP_API=localhost
-SERVER_APP_PORT=8000
+SERVER_APP_NAME=
+SERVER_APP_API=
+SERVER_APP_PORT=
 
 # API CONFIGURATION
-API_PREFIX=/api/v1
+API_PREFIX=
 
 # DATABASE CONFIGURATION
 MONGO_URI=
 
-# JWT Secret
+# JWT CONFIGURATION
 JWT_SECRET=
+
+# CLOUDINARY CONFIGURATION
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
 ```
 
 ### 4. Menjalankan Server
@@ -90,22 +95,26 @@ Jika berhasil, server akan berjalan di:
 
 ## 📡 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|-------------|-------------|
-| GET | `/` | Welcome message |
-| POST | `/api/v1/auth/register` | Register user |
-| POST | `/api/v1/auth/login` | Login user |
-| GET | `/api/v1/users` | Get all users (auth) |
-| GET | `/api/v1/users/:id` | Get user by ID (auth) |
-| PUT | `/api/v1/users/:id` | Update user (auth) |
-| DELETE | `/api/v1/users/:id` | Delete user (auth) |
-| POST | `/api/v1/users/:id/upload-image` | Upload user image (auth) |
-| POST | `/api/v1/books` | Create a book (auth) |
-| GET | `/api/v1/books` | Get all books (auth) |
-| GET | `/api/v1/books/:id` | Get book by ID (auth) |
-| PUT | `/api/v1/books/:id` | Update book (auth) |
-| DELETE | `/api/v1/books/:id` | Delete book (auth) |
-| POST | `/api/v1/books/:id/upload-image` | Upload book image (auth) |
+| Method | Endpoint                | Description            |
+|--------|-------------------------|------------------------|
+| GET    | `/`                     | Welcome message        |
+| POST   | `/api/v1/auth/register` | Register user          |
+| POST   | `/api/v1/auth/login`    | Login user             |
+| GET    | `/api/v1/users`         | Get all users (auth)   |
+| GET    | `/api/v1/users/:id`     | Get user by ID (auth)  |
+| PUT    | `/api/v1/users/:id`     | Update user (auth)     |
+| DELETE | `/api/v1/users/:id`     | Delete user (auth)     |
+| POST   | `/api/v1/users/:id/upload-image` | Upload user image (auth) |
+| PUT    | `/api/v1/users/bulk-update` | Bulk update users (auth) |
+| DELETE | `/api/v1/users/bulk-delete` | Bulk delete users (auth) |
+| POST   | `/api/v1/books`         | Create a book (auth)   |
+| GET    | `/api/v1/books`         | Get all books (auth)   |
+| GET    | `/api/v1/books/:id`     | Get book by ID (auth)  |
+| PUT    | `/api/v1/books/:id`     | Update book (auth)     |
+| DELETE | `/api/v1/books/:id`     | Delete book (auth)     |
+| POST   | `/api/v1/books/:id/upload-image` | Upload book image (auth) |
+| PUT    | `/api/v1/books/bulk-update` | Bulk update books (auth) |
+| DELETE | `/api/v1/books/bulk-delete` | Bulk delete books (auth) |
 
 ## 🔧 Built With
 - **Node.js** - Runtime JavaScript

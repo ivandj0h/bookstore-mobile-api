@@ -39,6 +39,12 @@ const bookSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/ivandjoh/image/upload/v1742074101/default_book_cover_yzh05w.jpg",
     },
+    rating: {
+      type: Number,
+      min: [0, "Rating cannot be less than 0"],
+      max: [5, "Rating cannot be more than 5"],
+      default: 0,
+    },
     addedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

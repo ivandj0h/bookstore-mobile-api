@@ -20,5 +20,15 @@ router.post(
   upload.single("profileImage"),
   userController.uploadUserImage,
 );
+router.put(
+  "/bulk-update",
+  authMiddleware.protect,
+  userController.bulkUpdateUsers,
+);
+router.delete(
+  "/bulk-delete",
+  authMiddleware.protect,
+  userController.bulkDeleteUsers,
+);
 
 export default router;

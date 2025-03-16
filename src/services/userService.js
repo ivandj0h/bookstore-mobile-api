@@ -57,7 +57,7 @@ const updateUser = async (id, updateData, requesterId) => {
 const deleteUser = async (id, requesterId) => {
   const user = await userRepository.findById(id);
   if (!user) return null;
-  if (user._id.toString() !== requesterId)
+  if (user._id.toString() !== requesterId.toString())
     throw new Error(MESSAGE_UNAUTHORIZED);
 
   await userRepository.deleteById(id);
@@ -67,6 +67,12 @@ const deleteUser = async (id, requesterId) => {
 const uploadUserImage = async (id, imageFile, requesterId) => {
   const user = await userRepository.findById(id);
   if (!user) return null;
+  console.log(
+    "User ID:",
+    user._id.toString(),
+    "Requester ID:",
+    requesterId.toString(),
+  );
   if (user._id.toString() !== requesterId.toString())
     throw new Error(MESSAGE_UNAUTHORIZED);
 
@@ -88,10 +94,41 @@ const uploadUserImage = async (id, imageFile, requesterId) => {
   return userObj;
 };
 
+const bulkUpdateUsers = async (users, requesterId) => {
+  const updatedUsers = [];
+  for (const { id, updateData } of users) {
+    const user = await userRepository.findById(id);
+    if (!user) continue;
+    if (user._id.toString() !== requesterId.toString()) continue; // Skip kalo bukan user yang login
+
+    Object.assign(user, updateData);
+    const updatedUser = await user.save();
+    const userObj = updatedUser.toObject();
+    delete userObj.password;
+    updatedUsers.push(userObj);
+  }
+  return updatedUsers;
+};
+
+const bulkDeleteUsers = async (userIds, requesterId) => {
+  const deletedUsers = [];
+  for (const id of userIds) {
+    const user = await userRepository.findById(id);
+    if (!user) continue;
+    if (user._id.toString() !== requesterId.toString()) continue;
+
+    await userRepository.deleteById(id);
+    deletedUsers.push(user);
+  }
+  return deletedUsers;
+};
+
 export default {
   getAllUsers,
   getUserById,
   updateUser,
   deleteUser,
   uploadUserImage,
+  bulkUpdateUsers,
+  bulkDeleteUsers,
 };

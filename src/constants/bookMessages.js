@@ -15,3 +15,4 @@ export const RESPONSE_STATUS_NOT_FOUND = "Not Found";
 export const MESSAGE_UNAUTHORIZED = "Unauthorized";
 export const MESSAGE_FORBIDDEN = "Forbidden";
 export const MESSAGE_NOT_FOUND = "Not Found";
+export const MESSAGE_INVALID_RATING = "Rating must be between 0 and 5";
