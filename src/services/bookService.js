@@ -14,7 +14,6 @@ const createBook = async (bookData, userId) => {
   if (await bookRepository.findByTitle(title))
     throw new Error(MESSAGE_BOOK_TITLE_EXISTS.replace("{title}", title));
 
-  // Validasi rating
   if (rating !== undefined && (rating < 0 || rating > 5))
     throw new Error(MESSAGE_INVALID_RATING);
 
@@ -51,7 +50,6 @@ const updateBook = async (id, updateData, requesterId) => {
   if (book.addedBy._id.toString() !== requesterId.toString())
     throw new Error(MESSAGE_UNAUTHORIZED);
 
-  // Validasi rating
   if (
     updateData.rating !== undefined &&
     (updateData.rating < 0 || updateData.rating > 5)
@@ -120,6 +118,40 @@ const uploadBookImage = async (id, imageFile, requesterId) => {
   return await book.save();
 };
 
+const bulkUpdateBooks = async (books, requesterId) => {
+  const updatedBooks = [];
+  for (const { id, updateData } of books) {
+    const book = await bookRepository.findById(id);
+    if (!book) continue;
+    if (book.addedBy._id.toString() !== requesterId.toString()) continue;
+
+    if (
+      updateData.rating !== undefined &&
+      (updateData.rating < 0 || updateData.rating > 5)
+    ) {
+      continue; // Skip kalo rating invalid
+    }
+
+    Object.assign(book, updateData);
+    const updatedBook = await book.save();
+    updatedBooks.push(updatedBook);
+  }
+  return updatedBooks;
+};
+
+const bulkDeleteBooks = async (bookIds, requesterId) => {
+  const deletedBooks = [];
+  for (const id of bookIds) {
+    const book = await bookRepository.findById(id);
+    if (!book) continue;
+    if (book.addedBy._id.toString() !== requesterId.toString()) continue;
+
+    await bookRepository.deleteById(id);
+    deletedBooks.push(book);
+  }
+  return deletedBooks;
+};
+
 export default {
   createBook,
   getAllBooks,
@@ -127,4 +159,6 @@ export default {
   updateBook,
   deleteBook,
   uploadBookImage,
+  bulkUpdateBooks,
+  bulkDeleteBooks,
 };

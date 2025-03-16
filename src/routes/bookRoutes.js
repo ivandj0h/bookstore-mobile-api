@@ -26,5 +26,15 @@ router.post(
   upload.single("imageUrl"),
   bookController.uploadBookImage,
 );
+router.put(
+  "/bulk-update",
+  authMiddleware.protect,
+  bookController.bulkUpdateBooks,
+);
+router.delete(
+  "/bulk-delete",
+  authMiddleware.protect,
+  bookController.bulkDeleteBooks,
+);
 
 export default router;

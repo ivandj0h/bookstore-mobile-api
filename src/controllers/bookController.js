@@ -149,6 +149,7 @@ const deleteBook = async (req, res) => {
 
 const uploadBookImage = async (req, res) => {
   try {
+    console.log("Request file:", req.file);
     if (!req.file) throw new Error("No image file provided");
     const book = await bookService.uploadBookImage(
       req.params.id,
@@ -170,10 +171,62 @@ const uploadBookImage = async (req, res) => {
       { book },
     );
   } catch (error) {
+    console.log("Upload error:", error.message);
     let status = RESPONSE_STATUS_BAD_REQUEST;
     if (error.message === MESSAGE_UNAUTHORIZED)
       status = RESPONSE_STATUS_UNAUTHORIZED;
     return responseHandler(res, status, false, error.message);
+  }
+};
+
+const bulkUpdateBooks = async (req, res) => {
+  try {
+    const { books } = req.body; // Expect array of { id, updateData }
+    if (!Array.isArray(books) || books.length === 0)
+      throw new Error("Books array is required and cannot be empty");
+
+    const updatedBooks = await bookService.bulkUpdateBooks(books, req.user._id);
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_SUCCESS,
+      true,
+      "Books updated successfully",
+      { updatedBooks },
+    );
+  } catch (error) {
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_BAD_REQUEST,
+      false,
+      error.message,
+    );
+  }
+};
+
+const bulkDeleteBooks = async (req, res) => {
+  try {
+    const { bookIds } = req.body; // Expect array of book IDs
+    if (!Array.isArray(bookIds) || bookIds.length === 0)
+      throw new Error("Book IDs array is required and cannot be empty");
+
+    const deletedBooks = await bookService.bulkDeleteBooks(
+      bookIds,
+      req.user._id,
+    );
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_SUCCESS,
+      true,
+      "Books deleted successfully",
+      { deletedBooks },
+    );
+  } catch (error) {
+    return responseHandler(
+      res,
+      RESPONSE_STATUS_BAD_REQUEST,
+      false,
+      error.message,
+    );
   }
 };
 
@@ -184,4 +237,6 @@ export default {
   updateBook,
   deleteBook,
   uploadBookImage,
+  bulkUpdateBooks,
+  bulkDeleteBooks,
 };
