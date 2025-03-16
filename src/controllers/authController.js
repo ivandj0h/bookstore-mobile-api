@@ -32,13 +32,14 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { token, user } = await authService.login(req.body);
+    const loginData = await authService.login(req.body); // Ambil data langsung dari service
+
     return responseHandler(
       res,
       RESPONSE_STATUS_SUCCESS,
       true,
       MESSAGE_LOGIN_SUCCESS,
-      { token, user },
+      loginData, // ✅ Kirim data langsung, tanpa membungkus ulang
     );
   } catch (error) {
     return responseHandler(
@@ -46,6 +47,7 @@ const login = async (req, res) => {
       RESPONSE_STATUS_BAD_REQUEST,
       false,
       error.message,
+      {},
     );
   }
 };
