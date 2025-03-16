@@ -6,7 +6,7 @@ import {
   MESSAGE_INVALID_CREDENTIALS,
   MESSAGE_MISSING_FIELDS,
   MESSAGE_LOGIN_FIELDS_REQUIRED,
-} from "../constants/messages.js";
+} from "../constants/userMessages.js";
 
 const register = async (userData) => {
   // Validasi input

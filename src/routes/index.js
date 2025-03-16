@@ -9,4 +9,9 @@ router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 router.use("/books", bookRoutes);
 
+console.log(
+  "Book routes:",
+  bookRoutes.stack.map((r) => r.route?.path).filter(Boolean),
+);
+
 export default router;
