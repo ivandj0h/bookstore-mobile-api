@@ -6,7 +6,7 @@ import {
   RESPONSE_STATUS_BAD_REQUEST,
   RESPONSE_STATUS_NOT_FOUND,
   RESPONSE_STATUS_UNAUTHORIZED,
-} from "../constants/statusCodes.js"; // Pindah RESPONSE_STATUS_* ke sini
+} from "../constants/statusCodes.js";
 import {
   MESSAGE_BOOK_CREATED,
   MESSAGE_BOOKS_RETRIEVED,
@@ -16,7 +16,7 @@ import {
   MESSAGE_BOOK_IMAGE_UPLOADED,
   MESSAGE_BOOK_NOT_FOUND,
   MESSAGE_UNAUTHORIZED,
-} from "../constants/bookMessages.js"; // Tambah MESSAGE_UNAUTHORIZED
+} from "../constants/bookMessages.js";
 
 const createBook = async (req, res) => {
   try {
@@ -149,7 +149,6 @@ const deleteBook = async (req, res) => {
 
 const uploadBookImage = async (req, res) => {
   try {
-    console.log("Request file:", req.file);
     if (!req.file) throw new Error("No image file provided");
     const book = await bookService.uploadBookImage(
       req.params.id,
@@ -171,10 +170,9 @@ const uploadBookImage = async (req, res) => {
       { book },
     );
   } catch (error) {
-    console.log("Upload error:", error.message);
     let status = RESPONSE_STATUS_BAD_REQUEST;
     if (error.message === MESSAGE_UNAUTHORIZED)
-      status = RESPONSE_STATUS_UNAUTHORIZED; // Sesuain dengan userMessages.js
+      status = RESPONSE_STATUS_UNAUTHORIZED;
     return responseHandler(res, status, false, error.message);
   }
 };
