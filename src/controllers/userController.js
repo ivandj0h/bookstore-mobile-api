@@ -64,7 +64,7 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const updateData = req.body;
-    if (req.file) updateData.profileImage = req.file; // Tambah file kalo ada
+    if (req.file) updateData.profileImage = req.file;
     const user = await userService.updateUser(
       req.params.id,
       updateData,
@@ -123,7 +123,6 @@ const deleteUser = async (req, res) => {
 
 const uploadUserImage = async (req, res) => {
   try {
-    console.log("Request file:", req.file);
     if (!req.file) throw new Error("No image file provided");
     const user = await userService.uploadUserImage(
       req.params.id,
@@ -145,7 +144,6 @@ const uploadUserImage = async (req, res) => {
       { user },
     );
   } catch (error) {
-    console.log("Upload error:", error.message);
     return responseHandler(
       res,
       RESPONSE_STATUS_BAD_REQUEST,

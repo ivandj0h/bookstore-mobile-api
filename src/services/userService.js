@@ -67,12 +67,6 @@ const deleteUser = async (id, requesterId) => {
 const uploadUserImage = async (id, imageFile, requesterId) => {
   const user = await userRepository.findById(id);
   if (!user) return null;
-  console.log(
-    "User ID:",
-    user._id.toString(),
-    "Requester ID:",
-    requesterId.toString(),
-  ); // Debug
   if (user._id.toString() !== requesterId.toString())
     throw new Error(MESSAGE_UNAUTHORIZED);
 
