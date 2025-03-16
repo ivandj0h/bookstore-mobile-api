@@ -2,16 +2,21 @@ import bookRepository from "../repositories/bookRepository.js";
 import {
   MESSAGE_BOOK_EXISTS,
   MESSAGE_BOOK_TITLE_EXISTS,
+  MESSAGE_INVALID_RATING,
 } from "../constants/bookMessages.js";
 import { MESSAGE_UNAUTHORIZED } from "../constants/userMessages.js";
 import cloudinary from "../config/cloudinaryConfig.js";
 
 const createBook = async (bookData, userId) => {
-  const { isbn, title } = bookData;
+  const { isbn, title, rating } = bookData;
   if (await bookRepository.findByISBN(isbn))
     throw new Error(MESSAGE_BOOK_EXISTS);
   if (await bookRepository.findByTitle(title))
     throw new Error(MESSAGE_BOOK_TITLE_EXISTS.replace("{title}", title));
+
+  // Validasi rating
+  if (rating !== undefined && (rating < 0 || rating > 5))
+    throw new Error(MESSAGE_INVALID_RATING);
 
   if (bookData.imageUrl) {
     const result = await new Promise((resolve, reject) => {
@@ -45,6 +50,14 @@ const updateBook = async (id, updateData, requesterId) => {
   );
   if (book.addedBy._id.toString() !== requesterId.toString())
     throw new Error(MESSAGE_UNAUTHORIZED);
+
+  // Validasi rating
+  if (
+    updateData.rating !== undefined &&
+    (updateData.rating < 0 || updateData.rating > 5)
+  ) {
+    throw new Error(MESSAGE_INVALID_RATING);
+  }
 
   if (updateData.imageUrl) {
     const result = await new Promise((resolve, reject) => {
