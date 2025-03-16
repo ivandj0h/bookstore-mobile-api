@@ -51,28 +51,37 @@ Jika berhasil, server akan berjalan di:
 📂 backend
  ┣ 📂 src
  ┃ ┣ 📂 config
- ┃ ┃ ┗ 📝 db.js              # Koneksi MongoDB
+ ┃ ┃ ┣ 📝 db.js              # Koneksi MongoDB
+ ┃ ┃ ┗ 📝 cloudinaryConfig.js  # Konfigurasi Cloudinary
  ┃ ┣ 📂 routes
  ┃ ┃ ┣ 📝 index.js           # Penggabungan semua route
  ┃ ┃ ┣ 📝 authRoutes.js      # Endpoint autentikasi
- ┃ ┃ ┗ 📝 userRoutes.js      # Endpoint profil pengguna
+ ┃ ┃ ┣ 📝 userRoutes.js      # Endpoint profil pengguna
+ ┃ ┃ ┗ 📝 bookRoutes.js      # Endpoint manajemen buku
  ┃ ┣ 📂 controllers
  ┃ ┃ ┣ 📝 authController.js  # Logika autentikasi
- ┃ ┃ ┗ 📝 userController.js  # Logika profil pengguna
+ ┃ ┃ ┣ 📝 userController.js  # Logika profil pengguna
+ ┃ ┃ ┗ 📝 bookController.js  # Logika manajemen buku
  ┃ ┣ 📂 services
  ┃ ┃ ┣ 📝 authService.js     # Business logic autentikasi
- ┃ ┃ ┗ 📝 userService.js     # Business logic profil pengguna
+ ┃ ┃ ┣ 📝 userService.js     # Business logic profil pengguna
+ ┃ ┃ ┗ 📝 bookService.js     # Business logic manajemen buku
  ┃ ┣ 📂 repositories
- ┃ ┃ ┗ 📝 userRepository.js  # Akses ke MongoDB untuk user
+ ┃ ┃ ┣ 📝 userRepository.js  # Akses ke MongoDB untuk user
+ ┃ ┃ ┗ 📝 bookRepository.js  # Akses ke MongoDB untuk buku
  ┃ ┣ 📂 models
- ┃ ┃ ┗ 📝 userModel.js       # Schema Mongoose untuk user
+ ┃ ┃ ┣ 📝 userModel.js       # Schema Mongoose untuk user
+ ┃ ┃ ┗ 📝 bookModel.js       # Schema Mongoose untuk buku
  ┃ ┣ 📂 middleware
- ┃ ┃ ┗ 📝 authMiddleware.js  # Middleware autentikasi JWT
+ ┃ ┃ ┣ 📝 authMiddleware.js  # Middleware autentikasi JWT
+ ┃ ┃ ┣ 📝 upload.js          # Middleware upload file (multer)
+ ┃ ┃ ┗ 📝 logger.js          # Middleware logging (morgan)
  ┃ ┣ 📂 utils
  ┃ ┃ ┗ 📝 responseHandler.js # Handler response
  ┃ ┣ 📂 constants
  ┃ ┃ ┣ 📝 statusCodes.js     # Constants HTTP Status Codes
- ┃ ┃ ┗ 📝 messages.js        # Constants Response Messages
+ ┃ ┃ ┣ 📝 userMessages.js    # Constants Response Messages untuk user
+ ┃ ┃ ┗ 📝 bookMessages.js    # Constants Response Messages untuk book
  ┃ ┗ 📝 index.js             # Main App
  ┣ 📝 .env                  # Konfigurasi environment
  ┣ 📝 package.json          # Dependencies & scripts
@@ -88,6 +97,15 @@ Jika berhasil, server akan berjalan di:
 | POST | `/api/v1/auth/login` | Login user |
 | GET | `/api/v1/users` | Get all users (auth) |
 | GET | `/api/v1/users/:id` | Get user by ID (auth) |
+| PUT | `/api/v1/users/:id` | Update user (auth) |
+| DELETE | `/api/v1/users/:id` | Delete user (auth) |
+| POST | `/api/v1/users/:id/upload-image` | Upload user image (auth) |
+| POST | `/api/v1/books` | Create a book (auth) |
+| GET | `/api/v1/books` | Get all books (auth) |
+| GET | `/api/v1/books/:id` | Get book by ID (auth) |
+| PUT | `/api/v1/books/:id` | Update book (auth) |
+| DELETE | `/api/v1/books/:id` | Delete book (auth) |
+| POST | `/api/v1/books/:id/upload-image` | Upload book image (auth) |
 
 ## 🔧 Built With
 - **Node.js** - Runtime JavaScript
