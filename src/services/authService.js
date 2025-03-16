@@ -29,17 +29,23 @@ const login = async ({ email, password }) => {
     throw new Error(MESSAGE_LOGIN_FIELDS_REQUIRED);
   }
 
+  console.log("Mencari user dengan email:", email);
   const user = await userRepository.findByEmail(email);
+  console.log("User ditemukan:", user);
+
   if (!user) throw new Error(MESSAGE_INVALID_CREDENTIALS);
 
+  console.log("Mengecek password...");
   const isMatch = await user.matchPassword(password);
+  console.log("Password cocok:", isMatch);
+
   if (!isMatch) throw new Error(MESSAGE_INVALID_CREDENTIALS);
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "1d",
   });
 
-  return { token };
+  return { user, token };
 };
 
 export default { register, login };
